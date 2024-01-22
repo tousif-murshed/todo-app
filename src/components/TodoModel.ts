@@ -6,8 +6,10 @@ export type Todo = {
     visible: boolean
 }
 
-export interface TodoPropType extends Todo {
+export type HandleMarkDone = (id: number, done: boolean) => void;
 
+export interface TodoPropType extends Todo {
+    handleMarkDone: HandleMarkDone;
 }
 
 export type AddTodoPropType = {
@@ -16,4 +18,5 @@ export type AddTodoPropType = {
 
 export type TodoListPropType = {
     todos: Todo[]
+    handleMarkDone: HandleMarkDone;
 }

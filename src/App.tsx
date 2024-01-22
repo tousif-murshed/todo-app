@@ -15,11 +15,15 @@ const App = () => {
     setTodos(todos => [...todos, todo]);
   }
 
+  const handleMarkDone = (id: number, done: boolean) => {
+    setTodos(todos => todos.map(todo => todo.id == id ? { ...todo, done } : todo));
+  }
+
   return (
     <div className={styles.container}>
       <AddTodo handleAddTodo={handleAddTodo}></AddTodo>
       <FilterTodo></FilterTodo>
-      <TodoList todos={todos}></TodoList>
+      <TodoList todos={todos} handleMarkDone={handleMarkDone}></TodoList>
     </div>
 
   )
