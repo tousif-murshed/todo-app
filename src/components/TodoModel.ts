@@ -25,8 +25,11 @@ export type FilterCriteria =
 
 export type Filter = (filter: FilterCriteria) => void;
 
+export type HandleDeleteTodo = (id: number) => void;
+
 export interface TodoPropType extends Todo {
     handleMarkDone: HandleMarkDone;
+    handleDeleteTodo: HandleDeleteTodo;
 }
 
 export type AddTodoPropType = {
@@ -36,6 +39,7 @@ export type AddTodoPropType = {
 export type TodoListPropType = {
     todos: Todo[]
     handleMarkDone: HandleMarkDone;
+    handleDeleteTodo: HandleDeleteTodo;
 }
 
 export type FilterTodoPropType = {

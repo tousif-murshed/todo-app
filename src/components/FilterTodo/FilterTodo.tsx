@@ -10,6 +10,9 @@ export const FilterTodo = ({ filter }: FilterTodoPropType) => {
     return <div className={styles.container}>
         <input type="text" placeholder="Search todo..." value={searchText} onChange={(e) => {
             setSearchText(e.target.value);
+            setAll(false);
+            setActive(false);
+            setDone(false);
             filter({ type: FILTER_TYPE.SEARCH, text: e.target.value });
         }} />
         <label htmlFor="all">

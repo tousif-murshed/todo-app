@@ -4,7 +4,7 @@ import list from "./Todos";
 import AddTodo from "./components/AddTodo/AddTodo";
 import FilterTodo from "./components/FilterTodo/FilterTodo";
 import TodoList from "./components/TodoList/TodoList";
-import { FILTER_TYPE, Filter, HandleAddTodo, HandleMarkDone, Todo } from "./components/TodoModel";
+import { FILTER_TYPE, Filter, HandleAddTodo, HandleDeleteTodo, HandleMarkDone, Todo } from "./components/TodoModel";
 
 const App = () => {
   const [todos, setTodos] = useState(list);
@@ -33,18 +33,22 @@ const App = () => {
           todos.map(todo => ({ ...todo, visible: true })));
         break;
       case FILTER_TYPE.DONE:
-        setTodos(todos => filter.done ? 
-          todos.map(todo => !todo.done ? { ...todo, visible: false } : { ...todo, visible: true }) : 
+        setTodos(todos => filter.done ?
+          todos.map(todo => !todo.done ? { ...todo, visible: false } : { ...todo, visible: true }) :
           todos.map(todo => ({ ...todo, visible: true })));
         break;
     }
+  }
+
+  const handleDeleteTodo: HandleDeleteTodo = (id) => {
+    setTodos(todos => todos.filter(todo => todo.id != id));
   }
 
   return (
     <div className={styles.container}>
       <AddTodo handleAddTodo={handleAddTodo}></AddTodo>
       <FilterTodo filter={filterTodo}></FilterTodo>
-      <TodoList todos={todos} handleMarkDone={handleMarkDone}></TodoList>
+      <TodoList todos={todos} handleMarkDone={handleMarkDone} handleDeleteTodo={handleDeleteTodo}></TodoList>
     </div>
 
   )
