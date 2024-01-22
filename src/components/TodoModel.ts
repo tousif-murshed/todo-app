@@ -11,7 +11,7 @@ export interface TodoPropType extends Todo {
 }
 
 export type AddTodoPropType = {
-
+    handleAddTodo: (name: string) => void;
 }
 
 export type TodoListPropType = {
