@@ -4,25 +4,46 @@ import list from "./Todos";
 import AddTodo from "./components/AddTodo/AddTodo";
 import FilterTodo from "./components/FilterTodo/FilterTodo";
 import TodoList from "./components/TodoList/TodoList";
-import { Todo } from "./components/TodoModel";
+import { FILTER_TYPE, Filter, HandleAddTodo, HandleMarkDone, Todo } from "./components/TodoModel";
 
 const App = () => {
   const [todos, setTodos] = useState(list);
 
-  const handleAddTodo = (name: string) => {
+  const handleAddTodo: HandleAddTodo = (name: string) => {
     const id = todos.length ? todos.length + 1 : 1;
     const todo: Todo = { id, name, done: false, visible: true };
     setTodos(todos => [...todos, todo]);
   }
 
-  const handleMarkDone = (id: number, done: boolean) => {
-    setTodos(todos => todos.map(todo => todo.id == id ? { ...todo, done } : todo));
+  const handleMarkDone: HandleMarkDone = (id: number, done: boolean) => {
+    setTodos(todos => todos.map(todo => todo.id === id ? { ...todo, done } : todo));
+  }
+
+  const filterTodo: Filter = (filter) => {
+    switch (filter.type) {
+      case FILTER_TYPE.SEARCH:
+        setTodos(todos => todos.map(todo => todo.name.includes(filter.text) ? { ...todo, visible: true } : { ...todo, visible: false }));
+        break;
+      case FILTER_TYPE.ALL:
+        setTodos(todos => todos.map(todo => ({ ...todo, visible: true })));
+        break;
+      case FILTER_TYPE.ACTIVE:
+        setTodos(todos => filter.active ?
+          todos.map(todo => todo.done ? { ...todo, visible: false } : { ...todo, visible: true }) :
+          todos.map(todo => ({ ...todo, visible: true })));
+        break;
+      case FILTER_TYPE.DONE:
+        setTodos(todos => filter.done ? 
+          todos.map(todo => !todo.done ? { ...todo, visible: false } : { ...todo, visible: true }) : 
+          todos.map(todo => ({ ...todo, visible: true })));
+        break;
+    }
   }
 
   return (
     <div className={styles.container}>
       <AddTodo handleAddTodo={handleAddTodo}></AddTodo>
-      <FilterTodo></FilterTodo>
+      <FilterTodo filter={filterTodo}></FilterTodo>
       <TodoList todos={todos} handleMarkDone={handleMarkDone}></TodoList>
     </div>
 

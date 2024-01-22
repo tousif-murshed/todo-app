@@ -1,7 +1,7 @@
 import { TodoPropType } from "../TodoModel";
 import styles from "./Todo.module.scss";
 
-export const Todo = ({ id, name, done, visible, handleMarkDone }: TodoPropType) => {
+export const Todo = ({ id, name, done, handleMarkDone }: TodoPropType) => {
     return (
         <div className={styles.container}>
             <div>{id}.</div>
