@@ -1,12 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FILTER_TYPE, FilterTodoPropType } from "../TodoModel";
 import styles from "./FilterTodo.module.css";
 
-export const FilterTodo = ({ filter }: FilterTodoPropType) => {
+export const FilterTodo = ({ filter, reset }: FilterTodoPropType) => {
     const [searchText, setSearchText] = useState('');
-    const [all, setAll] = useState(false);
+    const [all, setAll] = useState(true);
     const [active, setActive] = useState(false);
     const [done, setDone] = useState(false);
+
+    useEffect(() => {
+        if (reset) {
+            setSearchText('');
+            setAll(true);
+            filter({ type: FILTER_TYPE.ALL, all: all });
+            setActive(false);
+            setDone(false);
+        }
+    }, [reset]);
+
     return <div className={styles.container}>
         <input type="text" placeholder="Search todo..." value={searchText} onChange={(e) => {
             setSearchText(e.target.value);
@@ -16,7 +27,7 @@ export const FilterTodo = ({ filter }: FilterTodoPropType) => {
             filter({ type: FILTER_TYPE.SEARCH, text: e.target.value });
         }} />
         <label htmlFor="all">
-            <input type="checkbox" name="" id="all" checked={all} onChange={(e) => {
+            <input type="checkbox" name="" id="all" checked={all} disabled={all} onChange={(e) => {
                 setAll(e.target.checked);
                 setActive(false);
                 setDone(false);

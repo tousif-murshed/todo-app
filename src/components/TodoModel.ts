@@ -44,4 +44,5 @@ export type TodoListPropType = {
 
 export type FilterTodoPropType = {
     filter: Filter;
+    reset: boolean;
 }
